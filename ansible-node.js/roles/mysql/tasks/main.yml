@@ -1,0 +1,33 @@
+- name: install mysql-server
+  apt:
+    name: ['mysql-server-5.7', 'libmysqlclient-dev']
+    state: present
+
+- name: configure default charset
+  copy: >
+    src=files/{{ item }}
+    dest=/etc/mysql/conf.d/{{ item }}
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - binlog.cnf
+    - charset.cnf
+    - innodb.cnf
+  notify: restart mysql-server
+
+- name: enable mysql-service
+  service: name=mysql state=started enabled=yes
+
+- name: check configured rootpassword
+  shell: mysql -u root
+  register: emptypassword
+  failed_when:
+    - "emptypassword.rc not in [0, 1]"
+
+- name: configure mysql rootpassword
+  shell: >
+    mysql -u root -e "update mysql.user set password=password('{{ mysql_rootpassword }}') where user = 'root';";
+    mysql -u root -e "flush privileges;";
+  when: emptypassword.rc == 0
+

@@ -1,0 +1,11 @@
+- name: restart sshd
+  service: name=ssh state=restarted
+
+- name: restart ntpd
+  service: name=ntp state=restarted
+
+- name: restart cron
+  service: name=cron state=restarted
+
+- name: restart syslog
+  service: name=rsyslog state=restarted

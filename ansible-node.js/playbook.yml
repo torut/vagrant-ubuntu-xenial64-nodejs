@@ -1,0 +1,18 @@
+- hosts: localhost
+  connection: local
+  become: yes
+  become_user: root
+  pre_tasks:
+    - name: "[pre task] apt cache update"
+      apt: update_cache=yes cache_valid_time=86400
+  roles:
+    - common
+    - mysql
+    - nodejs
+
+  vars_prompt:
+    - name: mysql_rootpassword
+      prompt: "[mysql] root password"
+      default: rootpassword
+      private: yes
+      confirm: yes

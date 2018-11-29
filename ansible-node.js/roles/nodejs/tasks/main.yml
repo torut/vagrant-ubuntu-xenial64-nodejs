@@ -1,0 +1,13 @@
+- name: install nodejs
+  apt:
+    name: ['nodejs', 'npm']
+    state: present
+
+- name: cleanup npm cache
+  shell: npm cache clean
+
+- name: install n
+  npm: name=n global=yes
+
+- name: install node version "{{ node_version }}"
+  shell: n {{ node_version }}
