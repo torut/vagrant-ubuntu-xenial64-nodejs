@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   connection: local
   become: yes
   become_user: root
@@ -9,10 +9,3 @@
     - common
     - mysql
     - nodejs
-
-  vars_prompt:
-    - name: mysql_rootpassword
-      prompt: "[mysql] root password"
-      default: rootpassword
-      private: yes
-      confirm: yes

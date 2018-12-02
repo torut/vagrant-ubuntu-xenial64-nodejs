@@ -47,7 +47,7 @@ Vagrant.configure(2) do |config|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
-    vb.customize ["modifyvm", :id, "--name", "ubuntu-xenial64"]
+    vb.customize ["modifyvm", :id, "--name", "ubuntu-xenial64-nodejs"]
 
     # Customize the amount of memory on the VM:
     vb.memory = "2048"
@@ -85,7 +85,8 @@ Vagrant.configure(2) do |config|
       ansible.install = false
       ansible.provisioning_path = "/vagrant/ansible-node.js"
       ansible.playbook = "playbook.yml"
-      ansible.verbose = "vv"
+      # ansible.verbose = "vv"
+      ansible.extra_vars = { ansible_python_interpreter: "/usr/bin/python3"}
     end
   end
 end
